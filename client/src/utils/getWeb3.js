@@ -1,6 +1,7 @@
 import Web3 from "web3";
 
 const getWeb3 = () => {
+  
   if (window.web3) { // MetaMask - set to false to force localhost
     // Use Mist/MetaMask's provider.
     const web3 = new Web3(window.web3.currentProvider);
