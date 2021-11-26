@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import EthContext, { useEthContext } from "./contexts/ethContext";
-import Clicker from "./components/Clicker/clicker";
-
+import ClickerPage from "./pages/Clicker/clicker";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/Home/home";
 const App = () => {
   const contextValue = useEthContext();
 
@@ -12,11 +13,14 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <Router>
       <EthContext.Provider value={contextValue}>
-        <Clicker />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/clicker" element={<ClickerPage />}></Route>
+        </Routes>
       </EthContext.Provider>
-    </div>
+    </Router>
   );
 };
 

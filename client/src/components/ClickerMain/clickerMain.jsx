@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from "react";
 import EthContext from "../../contexts/ethContext";
-import "./clicker.css"
+import "./clickerMain.css"
 
-const Clicker = () => {
+const ClickerMain = () => {
   const { ethState, count, setCount, counterContract} = useContext(EthContext);
 
   const getCount = useCallback(async () => {
@@ -25,4 +25,4 @@ const Clicker = () => {
   );
 };
 
-export default Clicker;
+export default ClickerMain;
