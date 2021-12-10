@@ -1,5 +1,5 @@
 function createHeader(_token) {
-  var header = { "Authorization-token": `{_token}` };
+  var header = { "authorization": `${_token}` };
   return header;
 }
 

@@ -34,7 +34,9 @@ const LoginComponent = () => {
           return data.json();
         })
         .then((res) => {
-          setToken(res.token, console.log(res.token));
+          setToken(res.token);
+          console.log(token);
+
           // var header = createHeader(res.token)
           // console.log(header)
         });
