@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { Input, Button, Menu, Form } from "semantic-ui-react";
-import { createHeader } from "../../utils/AuthService";
 import "./loginComponent.css";
 
 const LoginComponent = () => {
   const [activeMenu, setActiveMenu] = useState("citizen");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
 
   const handleClick = (menu) => {
-    console.log(menu);
     setActiveMenu(menu);
   };
 
@@ -19,7 +16,7 @@ const LoginComponent = () => {
     if (!username || !password) {
       // do nothing
     } else {
-      fetch("http://localhost:3000/login", {
+      fetch("http://localhost:3001/login", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -34,11 +31,9 @@ const LoginComponent = () => {
           return data.json();
         })
         .then((res) => {
-          setToken(res.token);
-          console.log(token);
-
-          // var header = createHeader(res.token)
-          // console.log(header)
+          if (res.token) {
+            localStorage.setItem("token", `Bearer ${res.token}`)
+          }
         });
     }
   };
