@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import EthContext, { useEthContext } from "./contexts/ethContext";
-import ClickerPage from "./pages/Clicker/clicker";
+import ClickerPage from "./pages/ClickerPage/clickerPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/homePage";
 import LoginPage from "./pages/LoginPage/loginPage";
