@@ -1,6 +1,15 @@
-function createHeader(_token) {
-  let header = { "authorization": `${_token}` };
-  return header;
-}
-
-module.exports = { createHeader };
+export const checkAuth = async () => {
+    let auth = !!localStorage.getItem("token");
+    if (auth) {
+        return fetch("http://localhost:3001/", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        }).then((data) => {
+            return data.ok;
+        });
+    }
+};
