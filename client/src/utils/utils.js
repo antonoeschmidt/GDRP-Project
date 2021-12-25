@@ -13,3 +13,7 @@ export const checkAuth = async () => {
         });
     }
 };
+
+export const useAuth = () => {
+    return !!localStorage.getItem("token"); // only checks if a token is sat. No real auth yey
+}

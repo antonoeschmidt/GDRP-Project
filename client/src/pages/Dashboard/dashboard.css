@@ -1,0 +1,36 @@
+
+#permission > div > div.description {
+    color: #6FCF97 !important;
+    font-size: xx-large;
+}
+
+#permission > div > div.header {
+    color: #6FCF97 !important;
+}
+
+#permission > div.content{
+    outline-style: solid;
+    outline-color: #6FCF97;
+}
+
+#requests > div > div.description {
+    font-size: xx-large;
+}
+
+#denied > div > div.description {
+    color: #EB5757 !important;
+    font-size: xx-large;
+}
+
+#denied > div > div.header {
+    color: #EB5757 !important;
+}
+
+#denied > div.content{
+    outline-style: solid;
+    outline-color: #EB5757;
+}
+
+.content {
+    padding: 2em !important;
+}

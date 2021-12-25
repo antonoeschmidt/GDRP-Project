@@ -1,26 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
+import HomePageHeading from "../../components/Home/homePageHeading";
+import HomePageMenu from "../../components/Home/homePageMenu";
 const HomePage = () => {
-  const test = async () => {
-    let res = await fetch("http://localhost:3001/", {
-      method: "GET",
-      headers: {
-          authorization: `${localStorage.getItem("token")}`
-      },
-    })
-    console.log(await res.text());
-    
-  };
-
-  return (
-    <div>
-      Home
-      <br />
-      <Link to="/clicker">To clicker</Link>
-      <Button onClick={() => test()}>Test backend</Button>
-    </div>
-  );
+    return (
+        <div>
+            <Segment
+                inverted
+                textAlign="center"
+                style={{ minHeight: 700, padding: "1em 0em" }}
+                vertical
+            >
+                <HomePageMenu activeMenu={"home"} />
+                <HomePageHeading />
+            </Segment>
+        </div>
+    );
 };
 
 export default HomePage;

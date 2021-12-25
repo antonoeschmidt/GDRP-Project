@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Input, Button, Menu, Form } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom"
 import "./loginComponent.css";
 
 const LoginComponent = () => {
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("citizen");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,11 +30,16 @@ const LoginComponent = () => {
         }),
       })
         .then((data) => {
-          return data.json();
+          if (data.ok) {
+            return data.json();
+          } else {
+            return data.statusText;
+          }
         })
         .then((res) => {
           if (res.token) {
             localStorage.setItem("token", `Bearer ${res.token}`)
+            navigate("/dashboard")
           }
         });
     }

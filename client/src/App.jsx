@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./utils/privateRouter";
 import HomePage from "./pages/HomePage/homePage";
 import LoginPage from "./pages/LoginPage/loginPage";
+import DashboardPage from "./pages/Dashboard/dashboard";
 
 const App = () => {
     const contextValue = useEthContext();
@@ -26,6 +27,14 @@ const App = () => {
                         element={
                             <PrivateRoute>
                                 <ClickerPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <PrivateRoute>
+                                <DashboardPage />
                             </PrivateRoute>
                         }
                     />
