@@ -1,4 +1,4 @@
-import CitizenData from "../contracts/CitizenData.json"
+import CitizenData from "../../contracts/CitizenData.json"
 
 export const citizenInstance = (address, web3) => {
     if (!address || !web3) {

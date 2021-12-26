@@ -1,7 +1,7 @@
 export const checkAuth = async () => {
     let auth = !!localStorage.getItem("token");
     if (auth) {
-        return fetch("http://localhost:3001/", {
+        return await fetch("http://localhost:3001/", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -12,8 +12,9 @@ export const checkAuth = async () => {
             return data.ok;
         });
     }
+    return false;
 };
 
 export const useAuth = () => {
-    return !!localStorage.getItem("token"); // only checks if a token is sat. No real auth yey
+    return !!localStorage.getItem("token"); // only checks if a token is sat. No real auth yet
 }

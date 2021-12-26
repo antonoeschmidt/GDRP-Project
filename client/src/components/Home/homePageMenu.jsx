@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Container, Button } from "semantic-ui-react";
-import { useAuth } from "../../utils/utils";
+import AuthContext from "../../contexts/authContext";
 
 const HomePageMenu = ({activeMenu}) => {
+    const { loggedIn, setLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
-    let auth = useAuth();
-    console.log(activeMenu);
 
     const handleLogout = () => {
+        setLoggedIn(false)
         localStorage.removeItem("token");
         navigate("/")
     }
@@ -20,21 +20,22 @@ const HomePageMenu = ({activeMenu}) => {
             pointing={true}
             secondary={true}
             size="large"
+            style={{background: "#1b1c1d"}}
         >
-            <Container>
+            <Container >
                 <Menu.Item as="a" onClick={() => navigate("/")} active={activeMenu === "home"}>
                     Home
                 </Menu.Item>
-                {auth && (
+                {loggedIn && (
                     <Menu.Item as="a" onClick={() => navigate("/dashboard")} active={activeMenu === "dashboard"}>
                         Dashboard
                     </Menu.Item>
                 )}
-                {auth && <Menu.Item as="a">Data</Menu.Item>}
-                {auth && <Menu.Item as="a">Permissions</Menu.Item>}
+                {loggedIn && <Menu.Item as="a">Data</Menu.Item>}
+                {loggedIn && <Menu.Item as="a">Permissions</Menu.Item>}
                 <Menu.Item as="a">Credits</Menu.Item>
                 <Menu.Item position="right">
-                    {auth ? (
+                    {loggedIn ? (
                         <Button
                             as="a"
                             inverted={true}

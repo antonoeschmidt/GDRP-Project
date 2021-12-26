@@ -1,8 +1,8 @@
 import { createContext, useState } from "react";
 import getWeb3 from "../utils/getWeb3";
 import SimpleCounter from "../contracts/SimpleCounter.json";
-import { clickerInstance } from "../utils/clickerInstance";
-import { citizenInstance } from "../utils/citizenInstance";
+import { clickerInstance } from "../utils/contractInstances/clickerInstance";
+import { citizenInstance } from "../utils/contractInstances/citizenInstance";
 
 const EthContext = createContext(null);
 

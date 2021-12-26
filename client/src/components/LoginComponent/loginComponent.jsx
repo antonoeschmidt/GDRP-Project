@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Input, Button, Menu, Form } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom"
 import "./loginComponent.css";
+import AuthContext from "../../contexts/authContext";
 
 const LoginComponent = () => {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("citizen");
   const [username, setUsername] = useState("");
@@ -13,37 +15,14 @@ const LoginComponent = () => {
     setActiveMenu(menu);
   };
 
-  const handleLogin = () => {
-    // auth
-    if (!username || !password) {
-      // do nothing
+  const handleLogin = async () => {
+    let res = await login(username, password);
+    if (res) {
+      navigate("/dashboard")
     } else {
-      fetch("http://localhost:3001/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: `${username}`,
-          password: `${password}`,
-        }),
-      })
-        .then((data) => {
-          if (data.ok) {
-            return data.json();
-          } else {
-            return data.statusText;
-          }
-        })
-        .then((res) => {
-          if (res.token) {
-            localStorage.setItem("token", `Bearer ${res.token}`)
-            navigate("/dashboard")
-          }
-        });
+      alert("Username or password is invalid")
     }
-  };
+  }
 
   return (
     <div>

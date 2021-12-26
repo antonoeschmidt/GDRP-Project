@@ -1,4 +1,4 @@
-import SimpleCounter from "../contracts/SimpleCounter.json"
+import SimpleCounter from "../../contracts/SimpleCounter.json"
 
 export const clickerInstance = (address, web3) => {
     if (!address || !web3) {
