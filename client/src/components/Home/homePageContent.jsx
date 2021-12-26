@@ -1,12 +1,10 @@
 import React from "react";
-import {
-    Button,
-    Container,
-    Header,
-    Icon,
-} from "semantic-ui-react";
+import { Button, Container, Header, Icon } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
 
-const HomePageHeading = ({ mobile }) => {
+const HomePageContent = ({ mobile }) => {
+    const navigate = useNavigate();
+
     return (
         <Container text>
             <Header
@@ -30,7 +28,7 @@ const HomePageHeading = ({ mobile }) => {
                     marginTop: mobile ? "0.5em" : "1.5em",
                 }}
             />
-            <Button primary size="huge">
+            <Button primary size="huge" onClick={() => navigate("/login")}>
                 Get Started
                 <Icon name="right arrow" />
             </Button>
@@ -38,4 +36,4 @@ const HomePageHeading = ({ mobile }) => {
     );
 };
 
-export default HomePageHeading;
+export default HomePageContent;

@@ -10,7 +10,7 @@ const DashboardPage = () => {
             <Segment
                 inverted
                 textAlign="center"
-                style={{ minHeight: 700, padding: "1em 0em", background: "#F7F8FC" }}
+                style={{ minHeight: 700, padding: "1em 0em", /* background: "#F7F8FC" */ }}
                 vertical
             >
                 <HomePageMenu activeMenu={"dashboard"} /> <br />

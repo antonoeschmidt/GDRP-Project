@@ -1,6 +1,6 @@
 import React from "react";
 import { Segment } from "semantic-ui-react";
-import HomePageHeading from "../../components/Home/homePageHeading";
+import HomePageContent from "../../components/Home/homePageContent";
 import HomePageMenu from "../../components/Home/homePageMenu";
 const HomePage = () => {
     return (
@@ -12,7 +12,7 @@ const HomePage = () => {
                 vertical
             >
                 <HomePageMenu activeMenu={"home"} />
-                <HomePageHeading />
+                <HomePageContent />
             </Segment>
         </div>
     );
