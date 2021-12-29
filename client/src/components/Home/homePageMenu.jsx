@@ -31,7 +31,8 @@ const HomePageMenu = ({activeMenu}) => {
                         Dashboard
                     </Menu.Item>
                 )}
-                {loggedIn && <Menu.Item as="a">Data</Menu.Item>}
+                {loggedIn && <Menu.Item as="a" onClick={() => navigate("/data")} active={activeMenu === "data"}>
+                    Data</Menu.Item>}
                 {loggedIn && <Menu.Item as="a">Permissions</Menu.Item>}
                 <Menu.Item as="a">Credits</Menu.Item>
                 <Menu.Item position="right">

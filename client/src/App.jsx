@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage/homePage";
 import LoginPage from "./pages/LoginPage/loginPage";
 import DashboardPage from "./pages/Dashboard/dashboard";
 import AuthContext, { useAuthContext } from "./contexts/authContext";
+import DataPage from "./pages/DataPage/dataPage";
 
 const App = () => {
     const ethContextValue = useEthContext();
@@ -17,6 +18,7 @@ const App = () => {
         ethContextValue.initWeb3();
         authCotextValue.checkAuth().then((res) => {
             authCotextValue.setLoggedIn(res);
+            authCotextValue.setId(localStorage.getItem("id"));
             authCotextValue.setLoading(false)
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,6 +44,14 @@ const App = () => {
                             element={
                                 <PrivateRoute>
                                     <DashboardPage />
+                                </PrivateRoute>
+                            }
+                        />
+                         <Route
+                            path="/data"
+                            element={
+                                <PrivateRoute>
+                                    <DataPage />
                                 </PrivateRoute>
                             }
                         />
