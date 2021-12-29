@@ -19,7 +19,8 @@ const TableComponent = ({ props }) => {
         props.setUserData(data);
         return data;
       });
-  }, [id, props]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Table striped>
