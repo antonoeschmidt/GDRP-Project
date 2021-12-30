@@ -9,7 +9,7 @@ const HomePageMenu = ({activeMenu}) => {
 
     const handleLogout = () => {
         setLoggedIn(false)
-        localStorage.removeItem("token");
+        localStorage.clear();
         navigate("/")
     }
 

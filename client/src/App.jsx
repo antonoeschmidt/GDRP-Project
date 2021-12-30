@@ -18,6 +18,8 @@ const App = () => {
         authCotextValue.checkAuth().then((res) => {
             authCotextValue.setLoggedIn(res);
             authCotextValue.setLoading(false)
+            ethContextValue.setCitizenContract(localStorage.getItem("citizenContract"))
+            ethContextValue.setAccount(localStorage.getItem("account"))
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

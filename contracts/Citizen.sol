@@ -23,7 +23,6 @@ contract Citizen {
         owner = msg.sender;
     }  
     
-    // TODO: implement this. 
     function addData (string memory dataId, string memory hash) public {
          require(msg.sender == owner);
          address[] memory array;
@@ -31,7 +30,6 @@ contract Citizen {
          permissions[dataId] = array;
     }
 
-    // TODO: implement this. 
     function givePermission (address requester, string memory dataId) public {
          require(msg.sender == owner);
          address[] storage list = permissions[dataId];
@@ -39,13 +37,32 @@ contract Citizen {
          permissions[dataId] = list;
     }
 
-    // TODO: implement this. 
-    // function revokePermission (companyId / wallet, dataId) {
-    //      require(msg.sender == owner);
-    //      list = permissions[dataId];
-    //      list.remove(companyId);
-    //      permissions[dataId] = list;
-    // }
+     function getPermission (address requester, string memory dataId) public view returns (bool) {
+         address[] storage list = permissions[dataId];
+         bool found = false;
+         for (uint i = 0; i < list.length; i++) {
+             if (list[i] == requester) {
+                 found = true;
+             }
+         }
+
+         return found;
+    }
+
+    function revokePermission (address requester, string memory dataId) public returns (bool) {
+        require(msg.sender == owner);
+        address[] storage list = permissions[dataId];
+        bool deleted = false;
+        for (uint i = 0; i < list.length; i++) {
+             if (list[i] == requester) {
+                 delete list[i];
+                 deleted = true;
+             }
+         }
+        permissions[dataId] = list;
+
+        return deleted;
+    }
 
     // maybe, if we're going with hashMap
     // function updateData (string dataId, string hash) {

@@ -4,10 +4,10 @@ const AuthContext = createContext(null);
 
 export const useAuthContext = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     const checkAuth = async () => {
-        setLoading(true)
+        setLoading(true);
         let auth = !!localStorage.getItem("token");
         if (auth) {
             return await fetch("http://localhost:3001/", {
@@ -25,6 +25,26 @@ export const useAuthContext = () => {
         }
     };
 
+    const checkUsername = async (username) => {
+        return fetch("http://localhost:3001/user/username/" + username, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }
+        })
+            .then((data) => {
+                return data.json();
+            })
+            .then((data) => {
+                if (data._id) {
+                    return true
+                } else {
+                    return false
+                }
+            });
+    };
+
     const login = async (username, password) => {
         return fetch("http://localhost:3001/login", {
             method: "POST",
@@ -38,16 +58,16 @@ export const useAuthContext = () => {
             }),
         })
             .then((res) => {
-                return res.json()
+                return res.json();
             })
             .then((data) => {
                 if (data.token) {
-                    localStorage.setItem("token", `Bearer ${data.token}`);
                     setLoggedIn(true);
-                    return true;
-                } else {
-                    return false;
-                }
+                    localStorage.setItem("token", `Bearer ${data.token}`);
+                    localStorage.setItem("account", data.accountAddress);
+                    localStorage.setItem("citizenContract", data.citizenContract);
+                } 
+                return data;
             });
     };
 
@@ -57,7 +77,8 @@ export const useAuthContext = () => {
         loading,
         setLoading,
         login,
-        checkAuth
+        checkAuth,
+        checkUsername,
     };
 };
 
