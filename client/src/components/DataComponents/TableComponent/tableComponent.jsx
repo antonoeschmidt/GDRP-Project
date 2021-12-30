@@ -18,7 +18,7 @@ const TableComponent = ({ props }) => {
         props.setUserData(data);
         return data;
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendDeleteData = (id) => {
@@ -32,7 +32,7 @@ const TableComponent = ({ props }) => {
       if (res.status === 200){
         props.setUserData(props.userData.filter((d) => d._id !== id));
       } else {
-        console.log(`Delete failed : ${err}`)
+        console.log(`Delete failed : ${err}`);
       }
     });
   };
@@ -41,27 +41,41 @@ const TableComponent = ({ props }) => {
     <Table striped>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Data ID</Table.HeaderCell>
+          <Table.HeaderCell style={{ width: 350 }}>Data ID</Table.HeaderCell>
           <Table.HeaderCell>Content</Table.HeaderCell>
-          <Table.HeaderCell></Table.HeaderCell>
+          <Table.HeaderCell style={{ width: 75 }}></Table.HeaderCell>
+          <Table.HeaderCell style={{ width: 75 }}></Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {props.userData &&
           props.userData.map((d) => (
             <Table.Row key={d._id}>
-            <Table.Cell>{d._id}</Table.Cell>
-            <Table.Cell>{d.content}</Table.Cell>
-            <Table.Cell>
-              <Button
-                onClick={() => {
-                  sendDeleteData(d._id);
-                }}
-              >
-                Delete
-              </Button>
-            </Table.Cell>
-          </Table.Row>
+              <Table.Cell>{d._id}</Table.Cell>
+              <Table.Cell>{d.content}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  onClick={() => {
+                    props.setEditModal(true);
+                    props.setEditContent(d.content);
+                    props.setEditId(d._id);
+                    props.setEditUserId(d.userId);
+                  }}
+                >
+                  Edit
+                </Button>
+              </Table.Cell>
+              <Table.Cell>
+                <Button
+                  negative
+                  onClick={() => {
+                    sendDeleteData(d._id);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Table.Cell>
+            </Table.Row>
           ))}
       </Table.Body>
     </Table>

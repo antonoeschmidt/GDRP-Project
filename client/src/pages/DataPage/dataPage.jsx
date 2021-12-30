@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import "./dataPage.css";
+import { Segment, Button } from "semantic-ui-react";
 import HomePageMenu from "../../components/Home/homePageMenu";
 import TableComponent from "../../components/DataComponents/TableComponent/tableComponent";
-import { Segment, Button } from "semantic-ui-react";
+import CreateModalComponent from "../../components/DataComponents/CreateModalComponent/createModalComponent";
 import "./dataPage.css";
-import ModalComponent from "../../components/DataComponents/ModalComponent/modalComponent";
+import EditModalComponent from "../../components/DataComponents/EditModalComponent/editModalComponent";
 
 const DataPage = () => {
-  const [open, setOpen] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [editContent, setEditContent] = useState("");
   const [userData, setUserData] = useState(undefined);
+  const [editId, setEditId] = useState("");
+  const [editUserId, setEditUserId] = useState("");
 
   return (
     <div>
@@ -22,12 +26,46 @@ const DataPage = () => {
         vertical
       >
         <HomePageMenu activeMenu={"data"} /> <br />
-        <Button positive onClick={() => setOpen(true)}>
+        <Button positive onClick={() => setCreateModal(true)}>
           Create data
         </Button>
-        <TableComponent props={{userData, setUserData}}></TableComponent>
+        <TableComponent
+          props={{
+            userData,
+            setUserData,
+            editModal,
+            setEditModal,
+            editContent,
+            setEditContent,
+            editId,
+            setEditId,
+            editUserId,
+            setEditUserId,
+          }}
+        ></TableComponent>
       </Segment>
-      <ModalComponent props={{open, setOpen, userData, setUserData}}></ModalComponent>
+      <CreateModalComponent
+        props={{
+          open: createModal,
+          setOpen: setCreateModal,
+          userData,
+          setUserData,
+        }}
+      />
+      <EditModalComponent
+        props={{
+          open: editModal,
+          setOpen: setEditModal,
+          editContent,
+          setEditContent,
+          editId,
+          setEditId,
+          editUserId,
+          setEditUserId,
+          userData,
+          setUserData,
+        }}
+      />
     </div>
   );
 };
