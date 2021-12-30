@@ -8,7 +8,7 @@ import ModalComponent from "../../components/DataComponents/ModalComponent/modal
 
 const DataPage = () => {
   const [open, setOpen] = useState(false);
-  const [userData, setUserData] = useState(undefined)
+  const [userData, setUserData] = useState(undefined);
 
   return (
     <div>

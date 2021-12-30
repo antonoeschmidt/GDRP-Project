@@ -28,12 +28,13 @@ const TableComponent = ({ props }) => {
         <Table.Row>
           <Table.HeaderCell>Data ID</Table.HeaderCell>
           <Table.HeaderCell>Content</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {props.userData &&
           props.userData.map((d) => (
-            <RowComponent data={d} key={d._id}></RowComponent>
+            <RowComponent props={d} key={d._id}></RowComponent>
           ))}
       </Table.Body>
     </Table>
