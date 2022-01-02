@@ -4,7 +4,8 @@ const AuthContext = createContext(null);
 
 export const useAuthContext = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true)
+    const [id, setId] = useState("");
 
     const checkAuth = async () => {
         setLoading(true);
@@ -66,6 +67,8 @@ export const useAuthContext = () => {
                     localStorage.setItem("token", `Bearer ${data.token}`);
                     localStorage.setItem("account", data.accountAddress);
                     localStorage.setItem("citizenContract", data.citizenContract);
+                    localStorage.setItem("id", data.id);
+                    setId(data.id)
                 } 
                 return data;
             });
@@ -79,6 +82,8 @@ export const useAuthContext = () => {
         login,
         checkAuth,
         checkUsername,
+        id,
+        setId
     };
 };
 

@@ -1,0 +1,9 @@
+.ui.table{
+    width: 90% !important;
+    margin: 5% !important;
+}
+.ui.positive.button {
+    float: right;
+    margin-top: 2%;
+    margin-right: 5%;
+}
