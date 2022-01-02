@@ -68,7 +68,9 @@ export const useEthContext = () => {
         let contract = citizenInstance(citizenContract, ethState.web3);
         let res = await contract.methods
             .givePermission(requester, dataId)
-            .send({ from: account });
+            .send({ from: account,
+                gas: 1500000,
+                gasPrice: "30000000000" });
         console.log("givePermission");
         console.log(res);
     };
@@ -77,7 +79,9 @@ export const useEthContext = () => {
         let contract = citizenInstance(citizenContract, ethState.web3);
         let res = await contract.methods
             .revokePermission(requester, dataId)
-            .send({ from: account });
+            .send({ from: account,
+                gas: 1500000,
+                gasPrice: "30000000000" });
         console.log("revokePermission");
         console.log(res);
     };
@@ -87,7 +91,9 @@ export const useEthContext = () => {
         const hash = crypto.createHash("sha256").update(content).digest("hex");
         const res = await contract.methods
             .addData(dataId, hash)
-            .send({ from: account });
+            .send({ from: account,
+                gas: 1500000,
+                gasPrice: "30000000000" });
         console.log(res);
     };
 
