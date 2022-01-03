@@ -22,7 +22,7 @@ const TableComponent = ({ props }) => {
   }, []);
 
   const deleteData = (id) => {
-    return fetch(`http://localhost:3001/data/dataid/${id}`, {
+    return fetch(`http://localhost:3001/data/id/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
