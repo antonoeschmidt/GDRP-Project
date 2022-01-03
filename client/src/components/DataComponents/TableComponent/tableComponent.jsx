@@ -59,7 +59,6 @@ const TableComponent = ({ props }) => {
                     props.setEditModal(true);
                     props.setEditContent(d.content);
                     props.setEditId(d._id);
-                    props.setEditUserId(d.userId);
                   }}
                 >
                   Edit

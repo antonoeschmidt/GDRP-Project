@@ -2,16 +2,14 @@ import React from "react";
 import { Button, Header, Icon, Modal, Form } from "semantic-ui-react";
 
 const EditModalComponent = ({ props }) => {
-  const sendEditData = async () => {
-    return fetch("http://localhost:3001/data/dataid", {
+  const editData = async () => {
+    return fetch(`http://localhost:3001/data/dataid/${props.editId}` , {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: `${props.editId}`,
-        userId: `${props.editUserId}`,
         content: `${props.editContent}`,
       }),
     })
@@ -20,10 +18,10 @@ const EditModalComponent = ({ props }) => {
     })
       .then((data) => {
         props.setOpen(false);
-        // TODO : Update view according to
-        // var hej = props.userData && props.userData.filter(d => d._id !== props.editId);
-        // props.setUserData(hej);
-        // props.setUserData([...props.userdata, data]);
+        let oldData = props.userData.filter(d => d._id === props.editId)[0];
+        let userData = props.userData.filter(d => d._id !== props.editId);
+        userData.push({...oldData, content: props.editContent})
+        props.setUserData(userData)
         return data;
       });
   };
@@ -52,7 +50,7 @@ const EditModalComponent = ({ props }) => {
         <Button color="red" onClick={() => props.setOpen(false)}>
           <Icon name="remove" /> No
         </Button>
-        <Button color="green" type="submit" onClick={() => sendEditData()}>
+        <Button color="green" type="submit" onClick={() => editData()}>
           <Icon name="checkmark" /> Yes
         </Button>
       </Modal.Actions>

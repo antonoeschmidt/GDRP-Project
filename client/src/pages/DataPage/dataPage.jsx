@@ -12,7 +12,6 @@ const DataPage = () => {
   const [editContent, setEditContent] = useState("");
   const [userData, setUserData] = useState(undefined);
   const [editId, setEditId] = useState("");
-  const [editUserId, setEditUserId] = useState("");
 
   return (
     <div>
@@ -33,14 +32,9 @@ const DataPage = () => {
           props={{
             userData,
             setUserData,
-            editModal,
             setEditModal,
-            editContent,
             setEditContent,
-            editId,
             setEditId,
-            editUserId,
-            setEditUserId,
           }}
         ></TableComponent>
       </Segment>
@@ -59,9 +53,6 @@ const DataPage = () => {
           editContent,
           setEditContent,
           editId,
-          setEditId,
-          editUserId,
-          setEditUserId,
           userData,
           setUserData,
         }}
