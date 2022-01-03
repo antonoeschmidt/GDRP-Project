@@ -21,7 +21,7 @@ const TableComponent = ({ props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const sendDeleteData = (id) => {
+  const deleteData = (id) => {
     return fetch(`http://localhost:3001/data/dataid/${id}`, {
       method: "DELETE",
       headers: {
@@ -68,7 +68,7 @@ const TableComponent = ({ props }) => {
                 <Button
                   negative
                   onClick={() => {
-                    sendDeleteData(d._id);
+                    deleteData(d._id);
                   }}
                 >
                   Delete

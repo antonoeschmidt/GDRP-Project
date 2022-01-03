@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage/loginPage";
 import DashboardPage from "./pages/Dashboard/dashboard";
 import AuthContext, { useAuthContext } from "./contexts/authContext";
 import DataPage from "./pages/DataPage/dataPage";
+import PermissionsPage from "./pages/PermissionsPage/permissionsPage";
 
 const App = () => {
     const ethContextValue = useEthContext();
@@ -19,9 +20,11 @@ const App = () => {
         authCotextValue.checkAuth().then((res) => {
             authCotextValue.setLoggedIn(res);
             authCotextValue.setId(localStorage.getItem("id"));
-            authCotextValue.setLoading(false)
-            ethContextValue.setCitizenContract(localStorage.getItem("citizenContract"))
-            ethContextValue.setAccount(localStorage.getItem("account"))
+            authCotextValue.setLoading(false);
+            ethContextValue.setCitizenContract(
+                localStorage.getItem("citizenContract")
+            );
+            ethContextValue.setAccount(localStorage.getItem("account"));
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -49,7 +52,7 @@ const App = () => {
                                 </PrivateRoute>
                             }
                         />
-                         <Route
+                        <Route
                             path="/data"
                             element={
                                 <PrivateRoute>
@@ -57,6 +60,14 @@ const App = () => {
                                 </PrivateRoute>
                             }
                         />
+                        <Route
+                            path="/permissions"
+                            element={
+                                <PrivateRoute>
+                                    <PermissionsPage />
+                                </PrivateRoute>
+                            }
+                        ></Route>
                     </Routes>
                 </AuthContext.Provider>
             </EthContext.Provider>

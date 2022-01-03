@@ -9,60 +9,58 @@ contract Citizen {
     // could look like this -V
     // mapping(string => string) private data;
     // the dataIds could be encrypted from the backEnd if necessary (symmertic /AES or asymmertic RSA)
-    // or just an array
-    // string[] private dataIds; 
     mapping(string => string) private data;
     
     // this hashMap will hold dataId as Key, and a list of walletIds (or Company IDs), that have permission to that
     // specific data when permissions change, the walletId will either be added or removed from that specific dataId / entry
-    mapping(string => address[]) private permissions;
-    
+    // Update: might be change to struct Permission {address address, uint256 timestamp} to have time-specific
+    // permissions supported. mapping(string => Permission[]) private permissions;
+
+    struct Permission{
+        address companyAddress;
+        uint retention;
+    }
+    mapping(string => Permission[]) private permissions;    
     address owner;
 
     constructor() public {
         owner = msg.sender;
     }  
-    
+
     function addData (string memory dataId, string memory hash) public {
          require(msg.sender == owner);
-         address[] memory array;
-         data[dataId] = hash; 
-         permissions[dataId] = array;
+         data[dataId] = hash;
     }
 
-    function givePermission (address requester, string memory dataId) public {
+    function givePermission (address requester, string memory dataId, uint retention) public {
          require(msg.sender == owner);
-         address[] storage list = permissions[dataId];
-         list.push(requester);
+         Permission[] storage list = permissions[dataId];
+         list.push(Permission(requester, retention));
          permissions[dataId] = list;
     }
 
-     function getPermission (address requester, string memory dataId) public view returns (bool) {
-         address[] storage list = permissions[dataId];
+      function getPermission (address requester, string memory dataId) public view returns (bool) {
+        Permission[] storage list = permissions[dataId];
          bool found = false;
          for (uint i = 0; i < list.length; i++) {
-             if (list[i] == requester) {
+             if (list[i].companyAddress == requester 
+                && list[i].retention > now) {
                  found = true;
              }
          }
-
          return found;
     }
 
-    function revokePermission (address requester, string memory dataId) public returns (bool) {
+     function revokePermission (address requester, string memory dataId) public {
         require(msg.sender == owner);
-        address[] storage list = permissions[dataId];
-        bool deleted = false;
+        Permission[] storage list = permissions[dataId];
         for (uint i = 0; i < list.length; i++) {
-             if (list[i] == requester) {
+             if (list[i].companyAddress == requester) {
                  delete list[i];
-                 deleted = true;
              }
          }
         permissions[dataId] = list;
-
-        return deleted;
-    }
+    } 
 
     // maybe, if we're going with hashMap
     // function updateData (string dataId, string hash) {

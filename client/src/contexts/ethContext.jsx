@@ -64,13 +64,17 @@ export const useEthContext = () => {
         console.log(`permission: ${permission}`);
     };
 
-    const givePermission = async (requester, dataId) => {
+    const givePermission = async (requester, dataId, retention) => {
+        console.log(requester);
+        console.log(dataId);
+        console.log(retention);
         let contract = citizenInstance(citizenContract, ethState.web3);
         let res = await contract.methods
-            .givePermission(requester, dataId)
-            .send({ from: account,
-                gas: 1500000,
-                gasPrice: "30000000000" });
+                .givePermission(requester, dataId, retention)
+                .send({ from: account,
+                    gas: 1500000,
+                    gasPrice: "30000000000" });
+
         console.log("givePermission");
         console.log(res);
     };
