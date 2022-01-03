@@ -18,10 +18,11 @@ const EditModalComponent = ({ props }) => {
     })
       .then((data) => {
         props.setOpen(false);
-        let oldData = props.userData.filter(d => d._id === props.editId)[0];
-        let userData = props.userData.filter(d => d._id !== props.editId);
-        userData.push({...oldData, content: props.editContent})
-        props.setUserData(userData)
+        let tempState = [...props.userData]
+        let oldData = tempState.filter(d => d._id === props.editId)[0];
+        let index = tempState.findIndex(d => d === oldData)
+        tempState[index].content = props.editContent;
+        props.setUserData(tempState);
         return data;
       });
   };
