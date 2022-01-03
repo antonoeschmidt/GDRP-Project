@@ -33,6 +33,7 @@ const HomePageMenu = ({activeMenu}) => {
                 )}
                 {loggedIn && <Menu.Item as="a" onClick={() => navigate("/data")} active={activeMenu === "data"}>
                     Data</Menu.Item>}
+                {loggedIn && <Menu.Item as="a" onClick={() => navigate("/requests")} active={activeMenu === "requests"}>Requests</Menu.Item>}
                 {loggedIn && <Menu.Item as="a" onClick={() => navigate("/permissions")} active={activeMenu === "permissions"}>Permissions</Menu.Item>}
                 <Menu.Item as="a">Credits</Menu.Item>
                 <Menu.Item position="right">
