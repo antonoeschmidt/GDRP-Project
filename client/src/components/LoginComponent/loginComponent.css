@@ -1,3 +1,11 @@
 .input {
     margin-bottom: 10px;
 }
+
+#loginColumn  {
+    margin-top: 3em;
+    width: 50% !important;
+    background: #fff !important;
+    border-radius: 1em;
+    padding: 2em !important;
+}

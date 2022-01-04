@@ -11,7 +11,7 @@ export const useAuthContext = () => {
         setLoading(true);
         let auth = !!localStorage.getItem("token");
         if (auth) {
-            return await fetch("http://localhost:3001/", {
+            return await fetch(`${process.env.REACT_APP_BACKEND_URL}/`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -27,7 +27,7 @@ export const useAuthContext = () => {
     };
 
     const checkUsername = async (username) => {
-        return fetch("http://localhost:3001/user/username/" + username, {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/login/checkusername/` + username, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -47,7 +47,7 @@ export const useAuthContext = () => {
     };
 
     const login = async (username, password) => {
-        return fetch("http://localhost:3001/login", {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, {
             method: "POST",
             headers: {
                 Accept: "application/json",

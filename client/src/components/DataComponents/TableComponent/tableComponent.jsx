@@ -4,11 +4,12 @@ import { Table, Button } from "semantic-ui-react";
 const TableComponent = ({ props }) => {
   const id = localStorage.getItem("id");
   useEffect(() => {
-    fetch(`http://localhost:3001/data/userid/${id}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/data/userid/${id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
       },
     })
       .then((res) => {
@@ -22,11 +23,12 @@ const TableComponent = ({ props }) => {
   }, []);
 
   const deleteData = (id) => {
-    return fetch(`http://localhost:3001/data/id/${id}`, {
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/data/id/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
       },
     }).then((res, err) => {
       if (res.status === 200){

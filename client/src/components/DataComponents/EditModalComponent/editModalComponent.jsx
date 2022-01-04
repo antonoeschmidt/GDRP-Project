@@ -3,11 +3,12 @@ import { Button, Header, Icon, Modal, Form } from "semantic-ui-react";
 
 const EditModalComponent = ({ props }) => {
   const editData = async () => {
-    return fetch(`http://localhost:3001/data/dataid/${props.editId}` , {
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/data/id/${props.editId}` , {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
       },
       body: JSON.stringify({
         content: `${props.editContent}`,

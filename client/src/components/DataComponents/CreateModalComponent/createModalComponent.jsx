@@ -6,11 +6,12 @@ const CreateModalComponent = ({ props }) => {
   const id = localStorage.getItem("id");
 
   const createData = async () => {
-    return fetch("http://localhost:3001/data", {
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/data`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
       },
       body: JSON.stringify({
         content: `${content}`,

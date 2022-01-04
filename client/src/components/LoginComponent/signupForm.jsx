@@ -27,7 +27,7 @@ const SignupForm = () => {
         const citizenContractAddress = await deployCitizenContract(
             accountAddress
         );
-        let newUser = await fetch("http://localhost:3001/user", {
+        let newUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
             method: "POST",
             headers: {
                 Accept: "application/json",

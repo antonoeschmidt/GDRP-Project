@@ -41,7 +41,7 @@ const DashboardPage = () => {
                 <Button onClick={() => getPermission(externalAccount, "hej")}>
                     Get Permission
                 </Button>
-                <Button onClick={() => givePermission(externalAccount, "hej", 1641301516)}>
+                <Button onClick={() => givePermission(externalAccount, "hej", 1641407105)}>
                     Give permission
                 </Button>
                 <Button

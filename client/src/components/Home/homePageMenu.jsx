@@ -59,6 +59,7 @@ const HomePageMenu = ({activeMenu}) => {
                                 inverted={true}
                                 primary={false}
                                 style={{ marginLeft: "0.5em" }}
+                                onClick={() => navigate("/login")}
                             >
                                 Sign Up
                             </Button>

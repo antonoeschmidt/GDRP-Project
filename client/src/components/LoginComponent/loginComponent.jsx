@@ -12,7 +12,8 @@ const LoginComponent = () => {
   };
 
   return (
-    <div>
+    <div className="ui middle aligned center aligned grid">
+      <div id="loginColumn" className="column">
       <Menu className="ui two item menu">
         <Menu.Item
           name="login"
@@ -25,12 +26,14 @@ const LoginComponent = () => {
           onClick={() => handleClick("signup")}
         ></Menu.Item>
       </Menu>
+      <br/>
       {activeMenu === "login" && (
         <LoginForm/>
       )}
       {activeMenu === "signup" && (
         <SignupForm/>
       )}
+      </div>
     </div>
   );
 };
