@@ -38,7 +38,7 @@ const GivenPermissionsComponent = () => {
         <Table striped>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell>Data ID</Table.HeaderCell>
+                    <Table.HeaderCell>Permission ID</Table.HeaderCell>
                     <Table.HeaderCell>Retention</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
