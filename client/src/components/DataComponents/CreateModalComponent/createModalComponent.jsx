@@ -1,9 +1,22 @@
-import React, { useState } from "react";
-import { Button, Header, Icon, Modal, Form } from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { Button, Header, Icon, Modal, Form, Dropdown } from "semantic-ui-react";
+import { dataTypes } from "../../../utils/utils";
 
 const CreateModalComponent = ({ props }) => {
   const [content, setContent] = useState("");
   const id = localStorage.getItem("id");
+  const [dataType, setDataType] = useState();
+  const [dataTypesOptions, setdataTypesOptions] = useState([
+    { key: 0, text: "" },
+  ]);
+
+  useEffect(() => {
+    let arr = [];
+    for (let key in dataTypes) {
+      arr.push({ key: key, value: key, text: dataTypes[key] });
+    }
+    setdataTypesOptions(arr);
+  }, []);
 
   const createData = async () => {
     return fetch(`${process.env.REACT_APP_BACKEND_URL}/data`, {
@@ -11,11 +24,12 @@ const CreateModalComponent = ({ props }) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify({
         content: `${content}`,
         userId: `${id}`,
+        dataType: `${dataType}`
       }),
     })
       .then((res) => {
@@ -45,7 +59,15 @@ const CreateModalComponent = ({ props }) => {
               onChange={(e) => setContent(e.target.value)}
             />
           </Form.Field>
-          <Form.Field></Form.Field>
+          <label>Data Type</label>
+          <Dropdown
+            placeholder="Data type"
+            fluid
+            search
+            selection
+            options={dataTypesOptions}
+            onChange={(event, data) => setDataType(data.value)}
+          />
         </Form>
       </Modal.Content>
       <Modal.Actions>
