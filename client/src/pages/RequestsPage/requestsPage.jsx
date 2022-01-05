@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HomePageMenu from "../../components/Home/homePageMenu";
 import { Menu, MenuItem, Segment } from "semantic-ui-react";
 import "./requestsPage.css";
 import IncomingRequests from "../../components/RequestsComponents/incomingRequests"
 import DeniedRequeusts from "../../components/RequestsComponents/deniedRequests"
 import NewRequest from "../../components/RequestsComponents/newRequest"
+import { useLocation } from "react-router";
 
 const RequestsPage = ({props}) => {
-    const [activeMenu, setActiveMenu] = useState("incoming")
+    const [activeMenu, setActiveMenu] = useState()
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state) {
+            setActiveMenu(location.state)
+        } else {
+            setActiveMenu("incoming")
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <Segment
             inverted

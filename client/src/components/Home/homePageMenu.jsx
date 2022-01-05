@@ -35,7 +35,6 @@ const HomePageMenu = ({activeMenu}) => {
                     Data</Menu.Item>}
                 {loggedIn && <Menu.Item as="a" onClick={() => navigate("/requests")} active={activeMenu === "requests"}>Requests</Menu.Item>}
                 {loggedIn && <Menu.Item as="a" onClick={() => navigate("/permissions")} active={activeMenu === "permissions"}>Permissions</Menu.Item>}
-                <Menu.Item as="a">Credits</Menu.Item>
                 <Menu.Item position="right">
                     {loggedIn ? (
                         <Button
@@ -59,7 +58,7 @@ const HomePageMenu = ({activeMenu}) => {
                                 inverted={true}
                                 primary={false}
                                 style={{ marginLeft: "0.5em" }}
-                                onClick={() => navigate("/login")}
+                                onClick={() => navigate("/login", {state: "signup"})}
                             >
                                 Sign Up
                             </Button>

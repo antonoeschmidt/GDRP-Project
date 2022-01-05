@@ -15,14 +15,13 @@ contract Citizen {
     // specific data when permissions change, the walletId will either be added or removed from that specific dataId / entry
     // Update: might be change to struct Permission {address address, uint256 timestamp} to have time-specific
     // permissions supported. mapping(string => Permission[]) private permissions;
-
     struct Permission{
         address companyAddress;
         uint retention;
     }
     mapping(string => Permission[]) private permissions;    
-    address owner;
 
+    address owner;
     constructor() public {
         owner = msg.sender;
     }  
@@ -39,16 +38,15 @@ contract Citizen {
          permissions[dataId] = list;
     }
 
-      function getPermission (address requester, string memory dataId) public view returns (bool) {
-        Permission[] storage list = permissions[dataId];
-         bool found = false;
+    function getPermission (address requester, string memory dataId) public view returns (bool) {
+         Permission[] storage list = permissions[dataId];
          for (uint i = 0; i < list.length; i++) {
              if (list[i].companyAddress == requester 
                 && list[i].retention > now) {
-                 found = true;
+                return true;
              }
          }
-         return found;
+         return false;
     }
 
      function revokePermission (address requester, string memory dataId) public {

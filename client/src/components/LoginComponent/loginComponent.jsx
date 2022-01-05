@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 import { Menu } from "semantic-ui-react";
 import LoginForm from "./loginForm";
 import "./loginComponent.css";
 import SignupForm from "./signupForm";
 
 const LoginComponent = () => {
-  const [activeMenu, setActiveMenu] = useState("login");
+  const [activeMenu, setActiveMenu] = useState();
+  const location = useLocation();
+
+    useEffect(() => {
+        if (location.state) {
+            setActiveMenu(location.state)
+        } else {
+            setActiveMenu("login")
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
   const handleClick = (menu) => {
     setActiveMenu(menu);

@@ -1,9 +1,15 @@
-import React from "react";
-import { Button, Segment, Icon } from "semantic-ui-react";
+import React, { useState } from "react";
+import "./permissionsPage.css"
+import { useNavigate } from "react-router";
+import { Button, Segment, Icon, Menu, MenuItem } from "semantic-ui-react";
 import HomePageMenu from "../../components/Home/homePageMenu";
-import TablePermissionComponent from "../../components/PermissionComponents/tablePermissionsComponent";
+import ReceivedPermissionsComponent from "../../components/PermissionComponents/receivedPermissionsComponent";
+import GivenPermissionsComponent from "../../components/PermissionComponents/givenPermissionsComponent";
 
 const PermissionsPage = () => {
+    const [activeMenu, setActiveMenu] = useState("given")
+    const navigate = useNavigate();
+
     return (
         <Segment
             inverted
@@ -15,8 +21,29 @@ const PermissionsPage = () => {
             vertical
         >
             <HomePageMenu activeMenu={"permissions"} /> <br />
-            <Button positive>New Request <Icon style={{marginLeft: "0.5em"}} name="plus" /></Button>
-            <TablePermissionComponent/>
+            <Button
+                positive
+                onClick={() => navigate("/requests", { state: "new" })}
+            >
+                New Request <Icon style={{ marginLeft: "0.5em" }} name="plus" />
+            </Button>
+            <div className="column" id="permissionsColumn">
+
+            <Menu
+                    inverted
+                    className="ui two item stackable tabs menu"
+                    style={{ margin: "5%" }}
+                >
+                    <MenuItem active={activeMenu === "given"} onClick={() => setActiveMenu("given")}>
+                        Given Permissions
+                    </MenuItem>
+                    <MenuItem active={activeMenu === "received"} onClick={() => setActiveMenu("received")}>
+                        Received Permissions
+                    </MenuItem>
+                </Menu>
+                {activeMenu === "given" && <GivenPermissionsComponent />} 
+                {activeMenu === "received" && <ReceivedPermissionsComponent />} 
+            </div>
         </Segment>
     );
 };

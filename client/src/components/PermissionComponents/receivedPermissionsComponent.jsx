@@ -2,9 +2,9 @@ import React, { useEffect, useContext, useState } from "react"
 import EthContext from "../../contexts/ethContext";
 import { Table } from "semantic-ui-react"
 
-const TablePermissionComponent = () => {
+const ReceivedPermissionsComponent = () => {
     const { account } = useContext(EthContext);
-    const [acceptedPermissions, setAcceptedPermissions] = useState()
+    const [receivedPermissions, setReceivedPermissions] = useState()
 
     useEffect(() => {
         let userAccount = account
@@ -12,7 +12,7 @@ const TablePermissionComponent = () => {
         if (!account) return;
 
         fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/permission/accepted/${userAccount}`,
+            `${process.env.REACT_APP_BACKEND_URL}/permission/received/${userAccount}`,
             {
                 headers: {
                     Authorization: localStorage.getItem("token"),
@@ -20,12 +20,12 @@ const TablePermissionComponent = () => {
             }
         )
             .then((res) => res.json())
-            .then((data) => setAcceptedPermissions(data));
+            .then((data) => setReceivedPermissions(data));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return(
+    return(     
         <Table striped>
             <Table.Header>
             <Table.Row>
@@ -34,7 +34,7 @@ const TablePermissionComponent = () => {
             </Table.Row>
             </Table.Header>
             <Table.Body>
-                {acceptedPermissions && acceptedPermissions.map((d) => (
+                {receivedPermissions && receivedPermissions.map((d) => (
                 <Table.Row key={d._id}>
                     <Table.Cell>{d._id}</Table.Cell>
                     <Table.Cell>{d.retention}</Table.Cell>
@@ -45,4 +45,4 @@ const TablePermissionComponent = () => {
     )
 }
 
-export default TablePermissionComponent
+export default ReceivedPermissionsComponent
