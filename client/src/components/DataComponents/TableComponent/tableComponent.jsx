@@ -1,5 +1,34 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useReducer } from "react";
 import { Table, Button } from "semantic-ui-react";
+const _ = require("lodash");
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "CHANGE_SORT":
+      if (state.column === action.column) {
+        return {
+          ...state,
+          data: state.data.slice().reverse(),
+          direction:
+            state.direction === "ascending" ? "descending" : "ascending",
+        };
+      }
+      return {
+        column: action.column,
+        data: _.sortBy(state.data, [action.column]),
+        direction: "ascending",
+      };
+    case "SET":
+      return {
+        column: action.column,
+        data: action.data,
+        direction: null,
+      };
+    default:
+      throw new Error();
+  }
+}
 
 const TableComponent = ({ props }) => {
   const id = localStorage.getItem("id");
@@ -9,7 +38,7 @@ const TableComponent = ({ props }) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem("token"),
       },
     })
       .then((res) => {
@@ -22,16 +51,32 @@ const TableComponent = ({ props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [state, dispatch] = useReducer(reducer, {
+    column: null,
+    data: props.userData,
+    direction: null,
+  });
+  const { column, direction } = state;
+
+  useEffect(() => {
+    if (!props.userData) return;
+    dispatch({ ...state, type: "SET", data: props.userData });
+  }, [props.userData]);
+
+  useEffect(() => {
+    props.setUserData(state.data);
+  }, [state]);
+
   const deleteData = (id) => {
     return fetch(`${process.env.REACT_APP_BACKEND_URL}/data/id/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem("token"),
       },
     }).then((res, err) => {
-      if (res.status === 200){
+      if (res.status === 200) {
         props.setUserData(props.userData.filter((d) => d._id !== id));
       } else {
         console.log(`Delete failed : ${err}`);
@@ -40,13 +85,32 @@ const TableComponent = ({ props }) => {
   };
 
   return (
-    <Table striped>
+    <Table striped sortable fixed>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell style={{ width: 350 }}>Data ID</Table.HeaderCell>
-          <Table.HeaderCell>Content</Table.HeaderCell>
-          <Table.HeaderCell style={{ width: 75 }}></Table.HeaderCell>
-          <Table.HeaderCell style={{ width: 75 }}></Table.HeaderCell>
+          <Table.HeaderCell
+            style={{ width: 250 }}
+            sorted={column === "_id" ? direction : null}
+            onClick={() => dispatch({ type: "CHANGE_SORT", column: "_id" })}
+          >
+            Data ID
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            style={{ width: 200 }}
+            sorted={column === "dataType" ? direction : null}
+            onClick={() =>
+              dispatch({ type: "CHANGE_SORT", column: "dataType" })
+            }
+          >
+            Data type
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            colSpan="2"
+            sorted={column === "content" ? direction : null}
+            onClick={() => dispatch({ type: "CHANGE_SORT", column: "content" })}
+          >
+            Content
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -54,20 +118,23 @@ const TableComponent = ({ props }) => {
           props.userData.map((d) => (
             <Table.Row key={d._id}>
               <Table.Cell>{d._id}</Table.Cell>
-              <Table.Cell>{d.content}</Table.Cell>
-              <Table.Cell>
+              <Table.Cell>{d.dataType}</Table.Cell>
+              <Table.Cell style={{ width: 800 }}>{d.content}</Table.Cell>
+              <Table.Cell label="edit" style={{ textAlign: "right" }}>
                 <Button
                   onClick={() => {
                     props.setEditModal(true);
-                    props.setEditContent(d.content);
-                    props.setEditId(d._id);
+                    props.setEdit({
+                      _id: d._id,
+                      content: d.content,
+                      dataType: d.dataType,
+                    });
                   }}
                 >
                   Edit
                 </Button>
-              </Table.Cell>
-              <Table.Cell>
                 <Button
+                  style={{ marginLeft: "10px" }}
                   negative
                   onClick={() => {
                     deleteData(d._id);

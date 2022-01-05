@@ -9,9 +9,8 @@ import EditModalComponent from "../../components/DataComponents/EditModalCompone
 const DataPage = () => {
   const [createModal, setCreateModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [editContent, setEditContent] = useState("");
+  const [edit, setEdit] = useState({});
   const [userData, setUserData] = useState(undefined);
-  const [editId, setEditId] = useState("");
 
   return (
     <div>
@@ -33,8 +32,7 @@ const DataPage = () => {
             userData,
             setUserData,
             setEditModal,
-            setEditContent,
-            setEditId,
+            setEdit
           }}
         ></TableComponent>
       </Segment>
@@ -50,9 +48,8 @@ const DataPage = () => {
         props={{
           open: editModal,
           setOpen: setEditModal,
-          editContent,
-          setEditContent,
-          editId,
+          edit,
+          setEdit,
           userData,
           setUserData,
         }}
