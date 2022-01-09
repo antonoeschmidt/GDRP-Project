@@ -88,6 +88,7 @@ export const useEthContext = () => {
                 gasPrice: "30000000000" });
         console.log("revokePermission");
         console.log(res);
+        return res
     };
 
     const addData = async (dataId, content) => {
