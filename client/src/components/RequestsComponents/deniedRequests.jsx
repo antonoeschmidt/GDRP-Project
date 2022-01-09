@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import EthContext from "../../contexts/ethContext";
 import { Table } from "semantic-ui-react";
 import AuthContext from "../../contexts/authContext";
-import { composeIDquery, createViewData, setDataFromIDs, setUsers } from "../../utils/utils";
+import { composeIDquery, createViewData, dateFormatter, setDataFromIDs, setUsers } from "../../utils/utils";
 
 const DeniedRequests = () => {
   const { account } = useContext(EthContext);
@@ -33,16 +33,6 @@ const DeniedRequests = () => {
 
   useEffect(() => {
     if (!deniedRequests) return;
-    // let ids = "";
-    // for (let i = 0; i < deniedRequests.length; i++) {
-    //   if (ids.includes(deniedRequests[i].dataId)) {
-    //   } else {
-    //     ids += deniedRequests[i].dataId + "&";
-    //   }
-    // }
-    // if (ids.substr(-1) === "&") {
-    //     ids = ids.substr(0, ids.length-1);
-    // }
     let ids = composeIDquery(deniedRequests)
     setDataFromIDs(ids, setReqData);
     setUsers(deniedRequests, setReqUsers);
@@ -70,7 +60,7 @@ const DeniedRequests = () => {
               <Table.Cell>{d._id}</Table.Cell>
               <Table.Cell>{d.username}</Table.Cell>
               <Table.Cell>{d.dataType}</Table.Cell>
-              <Table.Cell>{d.retention}</Table.Cell>
+              <Table.Cell>{dateFormatter(d.retention)}</Table.Cell>
             </Table.Row>
           ))}
       </Table.Body>

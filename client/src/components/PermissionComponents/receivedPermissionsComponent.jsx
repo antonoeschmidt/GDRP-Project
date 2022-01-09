@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import EthContext from "../../contexts/ethContext";
 import { Button, Table, Modal, Popup } from "semantic-ui-react";
-import { decrypt } from "../../utils/utils";
+import { dateFormatter, decrypt } from "../../utils/utils";
 
 const ReceivedPermissionsComponent = () => {
     const { account } = useContext(EthContext);
@@ -64,7 +64,7 @@ const ReceivedPermissionsComponent = () => {
                         receivedPermissions.map((d) => (
                             <Table.Row key={d._id}>
                                 <Table.Cell>{d._id}</Table.Cell>
-                                <Table.Cell>{d.retention}</Table.Cell>
+                                <Table.Cell>{dateFormatter(d.retention)}</Table.Cell>
                                 <Table.Cell>
                                     <Button onClick={() => viewData(d)}>
                                         View data

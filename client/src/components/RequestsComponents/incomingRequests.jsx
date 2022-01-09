@@ -122,7 +122,6 @@ const IncomingRequests = () => {
                 <Button negative onClick={() => handleDeny(d)}>
                   Deny
                 </Button>
-                {/* <div>{new Date(d.retention) + " + " + today}</div> */}
               </Table.Cell>
             </Table.Row>
           ))}
