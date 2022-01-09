@@ -27,3 +27,4 @@ yarn-error.log*
 
 # build contracts
 client/src/contracts
+keys.js

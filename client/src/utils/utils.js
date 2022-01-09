@@ -1,3 +1,6 @@
+const { privateKeys } = require("./keys");
+const crypto = require("crypto");
+
 export const checkAuth = async () => {
   let auth = !!localStorage.getItem("token");
   if (auth) {
@@ -121,4 +124,17 @@ export const createViewData = (requests, data, users) => {
     dataArr.push(dataObj);
   }
   return dataArr;
+}
+
+export const decrypt = (encryptedData, account) => {
+    const privateKey = privateKeys[account];
+    const encryptedDataBuffer = Buffer.from(encryptedData, "base64");
+
+    try {
+        const decryptedData = crypto.privateDecrypt(privateKey, encryptedDataBuffer);
+        return decryptedData.toString();
+    } catch (err) {
+        console.error(err);
+        return "error";
+    }
 };
