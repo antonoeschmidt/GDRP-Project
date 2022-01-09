@@ -1,3 +1,9 @@
 #requestsColumn {
     padding: 3em;
 }
+#requestsColumn > div {
+    width: 90%;
+    margin-top: 2%;
+    margin-bottom: 0%;
+    margin-left: 5% !important
+}

@@ -35,7 +35,6 @@ const RequestsPage = ({props}) => {
                 <Menu
                     inverted
                     className="ui three item stackable tabs menu"
-                    style={{ margin: "5%" }}
                 >
                     <MenuItem active={activeMenu === "incoming"} onClick={() => setActiveMenu("incoming")}>
                         Incoming Requests
