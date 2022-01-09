@@ -35,9 +35,11 @@ export const setUsers = async (requests, setReqUsers) => {
   for (let i = 0; i < requests.length; i++) {
     if (accAddressIds.includes(requests[i].requesterAddress));
     else {
-      accAddressIds += requests[i].requesterAddress;
-      if (requests[i + 1]) accAddressIds += "&";
+      accAddressIds += requests[i].requesterAddress + "&";
     }
+  }
+  if (accAddressIds.substr(-1) === "&") {
+    accAddressIds = accAddressIds.substr(0, accAddressIds.length - 1);
   }
 
   accAddressIds &&
@@ -124,17 +126,41 @@ export const createViewData = (requests, data, users) => {
     dataArr.push(dataObj);
   }
   return dataArr;
-}
+};
 
 export const decrypt = (encryptedData, account) => {
-    const privateKey = privateKeys[account];
-    const encryptedDataBuffer = Buffer.from(encryptedData, "base64");
+  const privateKey = privateKeys[account];
+  const encryptedDataBuffer = Buffer.from(encryptedData, "base64");
 
-    try {
-        const decryptedData = crypto.privateDecrypt(privateKey, encryptedDataBuffer);
-        return decryptedData.toString();
-    } catch (err) {
-        console.error(err);
-        return "error";
+  try {
+    const decryptedData = crypto.privateDecrypt(
+      privateKey,
+      encryptedDataBuffer
+    );
+    return decryptedData.toString();
+  } catch (err) {
+    console.error(err);
+    return "error";
+  }
+};
+
+export const dateFormatter = (retention) => {
+  let date = new Date(retention);
+  return `${date.getDate()}/${
+    date.getMonth() + 1
+  }-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+};
+
+export const composeIDquery = (arr) => {
+  let ids = "";
+  for (let i = 0; i < arr.length; i++) {
+    if (ids.includes(arr[i].dataId)) {
+    } else {
+      ids += arr[i].dataId + "&";
     }
+  }
+  if (ids.substr(-1) === "&") {
+    ids = ids.substr(0, ids.length - 1);
+  }
+  return ids;
 };

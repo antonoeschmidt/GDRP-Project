@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import EthContext from "../../contexts/ethContext";
 import { Table, Button, Loader } from "semantic-ui-react";
 import AuthContext from "../../contexts/authContext";
-import { setUsers, createViewData, setData } from "../../utils/utils";
+import { setUsers, createViewData, setData, dateFormatter } from "../../utils/utils";
 
 const IncomingRequests = () => {
   const { citizenContract, givePermission } = useContext(EthContext);
@@ -13,6 +13,7 @@ const IncomingRequests = () => {
   const [reqData, setReqData] = useState();
   const [reqUsers, setReqUsers] = useState();
   const [showData, setShowData] = useState();
+  const today = new Date()
 
   useEffect(() => {
     let contract = citizenContract;
@@ -107,7 +108,7 @@ const IncomingRequests = () => {
               <Table.Cell>{d.username}</Table.Cell>
               <Table.Cell>{d.dataType}</Table.Cell>
               <Table.Cell>{d.content}</Table.Cell>
-              <Table.Cell>{d.retention}</Table.Cell>
+              <Table.Cell>{dateFormatter(d.retention)}</Table.Cell>
               <Table.Cell>
                 {loading ? (
                   <Loader
@@ -116,11 +117,12 @@ const IncomingRequests = () => {
                     style={{ marginRight: "1em" }}
                   />
                 ) : (
-                  <Button onClick={() => handleAccept(d)}>Accept</Button>
+                  <Button disabled={today > new Date(d.retention)} onClick={() => handleAccept(d)}>Accept</Button>
                 )}
                 <Button negative onClick={() => handleDeny(d)}>
                   Deny
                 </Button>
+                {/* <div>{new Date(d.retention) + " + " + today}</div> */}
               </Table.Cell>
             </Table.Row>
           ))}
