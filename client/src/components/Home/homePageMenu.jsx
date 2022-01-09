@@ -40,7 +40,7 @@ const HomePageMenu = ({activeMenu}) => {
                         <Button
                             as="a"
                             inverted={true}
-                            onClick={() => handleLogout()} // TODO: logic not implemented
+                            onClick={() => handleLogout()}
                         >
                             Logout
                         </Button>

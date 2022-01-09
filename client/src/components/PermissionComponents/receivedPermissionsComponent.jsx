@@ -49,6 +49,27 @@ const ReceivedPermissionsComponent = () => {
         setOpen(true);
     };
 
+    const removePermission = (permission) => {
+        fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/permission/${permission._id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: localStorage.getItem("token"),
+                },
+            }
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.message === "Permission deleted") {
+                    setReceivedPermissions(receivedPermissions.filter(d => d._id !== permission._id));
+                    alert("Permission removed")
+                }
+            });
+    };
+
     return (
         <div>
             <Table striped>
@@ -61,17 +82,38 @@ const ReceivedPermissionsComponent = () => {
                 </Table.Header>
                 <Table.Body>
                     {receivedPermissions &&
-                        receivedPermissions.map((d) => (
-                            <Table.Row key={d._id}>
-                                <Table.Cell>{d._id}</Table.Cell>
-                                <Table.Cell>{dateFormatter(d.retention)}</Table.Cell>
-                                <Table.Cell>
-                                    <Button onClick={() => viewData(d)}>
-                                        View data
-                                    </Button>
-                                </Table.Cell>
-                            </Table.Row>
-                        ))}
+                        receivedPermissions.map((d) =>
+                            new Date(d.retention) > new Date() ? (
+                                <Table.Row key={d._id}>
+                                    <Table.Cell>{d._id}</Table.Cell>
+                                    <Table.Cell>
+                                        Valid until {dateFormatter(d.retention)}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Button onClick={() => viewData(d)}>
+                                            View data
+                                        </Button>
+                                    </Table.Cell>
+                                </Table.Row>
+                            ) : (
+                                <Table.Row
+                                    key={d._id}
+                                    style={{ background: "#ffe2e2" }}
+                                >
+                                    <Table.Cell>{d._id}</Table.Cell>
+                                    <Table.Cell>
+                                        Expired on {dateFormatter(d.retention)}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Button negative
+                                            onClick={() => removePermission(d)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        )}
                 </Table.Body>
             </Table>
             <Modal
@@ -101,7 +143,7 @@ const ReceivedPermissionsComponent = () => {
                                 Copy to Clipboard
                             </Button>
                         }
-                        style={{padding: "1px"}}
+                        style={{ padding: "1px" }}
                     />
                 </Modal.Actions>
             </Modal>
