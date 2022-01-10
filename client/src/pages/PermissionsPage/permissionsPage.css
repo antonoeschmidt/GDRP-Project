@@ -1,3 +1,9 @@
 #permissionsColumn {
-    padding: 3em;
+    padding-top: 3em;
+}
+#permissionsColumn > div {
+    width: 90%;
+    margin-top: 2%;
+    margin-bottom: 0%;
+    margin-left: 5% !important
 }

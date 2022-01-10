@@ -5,6 +5,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "react": "^16.8.6",
+    "react-datepicker": "^4.6.0",
     "react-dom": "^16.8.6",
     "react-router": "^6.0.2",
     "react-router-dom": "^6.0.2",

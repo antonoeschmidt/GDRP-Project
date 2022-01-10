@@ -102,6 +102,7 @@ export const setDataFromIDs = async (ids, setData) => {
 };
 
 export const createViewData = (requests, data, users) => {
+    if (!data[0]) return;
     let dataArr = [];
     for (let i = 0; i < requests.length; i++) {
         let dataObj = undefined;
@@ -123,6 +124,8 @@ export const createViewData = (requests, data, users) => {
             // needed for accept/deny req
             requesterAddress: requests[i].requesterAddress,
             dataId: requests[i].dataId,
+            // needed for showdata on received permissions
+            contractAddress: requests[i].contractAddress,
         };
         dataArr.push(dataObj);
     }
