@@ -49,8 +49,6 @@ export const useEthContext = () => {
                 gas: 1500000,
                 gasPrice: "30000000000",
             })
-            .on("confirmation", function (confirmationNumber, receipt) {
-            });
         
         return newContractInstance.options.address;
     };

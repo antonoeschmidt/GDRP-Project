@@ -16,7 +16,7 @@ const App = () => {
     const authCotextValue = useAuthContext();
 
     useEffect(() => {
-        console.log("called");
+        console.log("App called");
         ethContextValue.initWeb3();
         authCotextValue.checkAuth().then((res) => {
             authCotextValue.setLoggedIn(res);

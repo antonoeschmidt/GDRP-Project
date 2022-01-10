@@ -1,4 +1,4 @@
-const { privateKeys } = require("./keys");
+// const { privateKeys } = require("./keys");
 const crypto = require("crypto");
 
 export const checkAuth = async () => {
@@ -129,9 +129,14 @@ export const createViewData = (requests, data, users) => {
     return dataArr;
 };
 
-export const decrypt = (encryptedData, account) => {
-    const privateKey = privateKeys[account];
+export const decrypt = (encryptedData) => {
+    const privateKey = localStorage.getItem("privateKey")
     const encryptedDataBuffer = Buffer.from(encryptedData, "base64");
+
+    if (!privateKey) {
+        alert("Missing Private Key for this account. Please add it to your keys.js")
+        return
+    }
 
     try {
         const decryptedData = crypto.privateDecrypt(
