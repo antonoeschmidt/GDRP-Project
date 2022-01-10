@@ -1,13 +1,23 @@
 import React, { useEffect, useContext, useState } from "react";
 import EthContext from "../../contexts/ethContext";
 import { Button, Table, Modal, Popup } from "semantic-ui-react";
-import { dateFormatter, decrypt } from "../../utils/utils";
+import {
+    composeIDquery,
+    createViewData,
+    dateFormatter,
+    decrypt,
+    setDataFromIDs,
+    setUsers,
+} from "../../utils/utils";
 
 const ReceivedPermissionsComponent = () => {
     const { account } = useContext(EthContext);
     const [receivedPermissions, setReceivedPermissions] = useState();
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState("");
+    const [reqData, setReqData] = useState();
+    const [reqUsers, setReqUsers] = useState();
+    const [showData, setShowData] = useState();
 
     useEffect(() => {
         let userAccount = account;
@@ -28,6 +38,18 @@ const ReceivedPermissionsComponent = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        if (!receivedPermissions) return;
+        let ids = composeIDquery(receivedPermissions);
+        setDataFromIDs(ids, setReqData);
+        setUsers(receivedPermissions, setReqUsers);
+    }, [receivedPermissions]);
+
+    useEffect(() => {
+        if (!reqData || !reqUsers) return;
+        setShowData(createViewData(receivedPermissions, reqData, reqUsers));
+    }, [reqUsers, reqData, receivedPermissions]);
+
     const viewData = async (permission) => {
         let requester = permission.requesterAddress;
         let dataId = permission.dataId;
@@ -45,12 +67,13 @@ const ReceivedPermissionsComponent = () => {
             );
             let data = await res.json();
             const decrypted = decrypt(data.data, account);
-    
             setContent(decrypted);
             setOpen(true);
         } catch (error) {
-            console.error(error)
-            alert("Cannot conntect to data-exchange server. Please check that it is running")
+            console.error(error);
+            alert(
+                "Cannot conntect to data-exchange server. Please check that it is running"
+            );
         }
     };
 
@@ -69,8 +92,12 @@ const ReceivedPermissionsComponent = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.message === "Permission deleted") {
-                    setReceivedPermissions(receivedPermissions.filter(d => d._id !== permission._id));
-                    alert("Permission removed")
+                    setReceivedPermissions(
+                        receivedPermissions.filter(
+                            (d) => d._id !== permission._id
+                        )
+                    );
+                    alert("Permission removed");
                 }
             });
     };
@@ -81,16 +108,20 @@ const ReceivedPermissionsComponent = () => {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Permission ID</Table.HeaderCell>
+                        <Table.HeaderCell>Owner</Table.HeaderCell>
+                        <Table.HeaderCell>Data type</Table.HeaderCell>
                         <Table.HeaderCell>Retention</Table.HeaderCell>
                         <Table.HeaderCell></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {receivedPermissions &&
-                        receivedPermissions.map((d) =>
+                    {showData &&
+                        showData.map((d) =>
                             new Date(d.retention) > new Date() ? (
                                 <Table.Row key={d._id}>
                                     <Table.Cell>{d._id}</Table.Cell>
+                                    <Table.Cell>{d.username}</Table.Cell>
+                                    <Table.Cell>{d.dataType}</Table.Cell>
                                     <Table.Cell>
                                         Valid until {dateFormatter(d.retention)}
                                     </Table.Cell>
@@ -106,11 +137,14 @@ const ReceivedPermissionsComponent = () => {
                                     style={{ background: "#ffe2e2" }}
                                 >
                                     <Table.Cell>{d._id}</Table.Cell>
+                                    <Table.Cell>{d.username}</Table.Cell>
+                                    <Table.Cell>{d.dataType}</Table.Cell>
                                     <Table.Cell>
                                         Expired on {dateFormatter(d.retention)}
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Button negative
+                                        <Button
+                                            negative
                                             onClick={() => removePermission(d)}
                                         >
                                             Remove

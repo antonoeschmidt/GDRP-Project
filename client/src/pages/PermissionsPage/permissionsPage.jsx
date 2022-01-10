@@ -32,7 +32,6 @@ const PermissionsPage = () => {
             <Menu
                     inverted
                     className="ui two item stackable tabs menu"
-                    style={{ margin: "5%" }}
                 >
                     <MenuItem active={activeMenu === "given"} onClick={() => setActiveMenu("given")}>
                         Given Permissions

@@ -19,6 +19,10 @@ const CreateModalComponent = ({ props }) => {
   }, []);
 
   const createData = async () => {
+    if (!content || !dataType) {
+      alert("Please input all data");
+      return;
+    }
     return fetch(`${process.env.REACT_APP_BACKEND_URL}/data`, {
       method: "POST",
       headers: {
@@ -29,10 +33,12 @@ const CreateModalComponent = ({ props }) => {
       body: JSON.stringify({
         content: `${content}`,
         userId: `${id}`,
-        dataType: `${dataType}`
+        dataType: `${dataType}`,
       }),
     })
       .then((res) => {
+        setContent("");
+        setDataType("");
         return res.json();
       })
       .then((data) => {
@@ -51,30 +57,39 @@ const CreateModalComponent = ({ props }) => {
     >
       <Header icon="archive" content="New data entry" />
       <Modal.Content>
-        <Form>
-          <Form.Field>
+        <Form id="createForm">
+          <Form.Field required>
             <label>Content</label>
-            <input
+            <Form.Input
               placeholder="Content"
               onChange={(e) => setContent(e.target.value)}
+              error={content ? false : true}
             />
           </Form.Field>
-          <label>Data Type</label>
-          <Dropdown
-            placeholder="Data type"
-            fluid
-            search
-            selection
-            options={dataTypesOptions}
-            onChange={(event, data) => setDataType(data.value)}
-          />
+          <Form.Field required>
+            <label>Data Type</label>
+            <Dropdown
+              placeholder="Data type"
+              fluid
+              search
+              selection
+              options={dataTypesOptions}
+              onChange={(event, data) => setDataType(data.value)}
+              error={dataType ? false : true}
+            />
+          </Form.Field>
         </Form>
       </Modal.Content>
       <Modal.Actions>
         <Button color="red" onClick={() => props.setOpen(false)}>
           <Icon name="remove" /> No
         </Button>
-        <Button color="green" type="submit" onClick={() => createData()}>
+        <Button
+          color="green"
+          form="createForm"
+          type="submit"
+          onClick={() => createData()}
+        >
           <Icon name="checkmark" /> Yes
         </Button>
       </Modal.Actions>
