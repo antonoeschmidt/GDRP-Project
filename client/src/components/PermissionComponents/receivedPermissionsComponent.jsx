@@ -33,20 +33,25 @@ const ReceivedPermissionsComponent = () => {
         let dataId = permission.dataId;
         let owner = permission.contractAddress;
 
-        let res = await fetch(
-            `${process.env.REACT_APP_PERMISSION_URL}/data?requester=${requester}&dataid=${dataId}&owner=${owner}`,
-            {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        let data = await res.json();
-        const decrypted = decrypt(data.data, account);
-
-        setContent(decrypted);
-        setOpen(true);
+        try {
+            let res = await fetch(
+                `${process.env.REACT_APP_PERMISSION_URL}/data?requester=${requester}&dataid=${dataId}&owner=${owner}`,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            let data = await res.json();
+            const decrypted = decrypt(data.data, account);
+    
+            setContent(decrypted);
+            setOpen(true);
+        } catch (error) {
+            console.error(error)
+            alert("Cannot conntect to data-exchange server. Please check that it is running")
+        }
     };
 
     const removePermission = (permission) => {

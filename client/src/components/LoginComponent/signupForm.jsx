@@ -18,38 +18,43 @@ const SignupForm = () => {
             alert("Please fill in all fields");
             return;
         }
-        const userExists = await checkUsername(username);
-        if (userExists) {
-            alert("Username not avaliable");
-            return;
-        }
 
-        const citizenContractAddress = await deployCitizenContract(
-            accountAddress
-        );
-        let newUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: `${username}`,
-                password: `${password}`,
-                accountAddress: `${accountAddress}`,
-                citizenContract: `${citizenContractAddress}`,
-            }),
-        })
-            .then((data) => {
-                return data.json();
+        try {
+            const userExists = await checkUsername(username);
+            if (userExists) {
+                alert("Username not avaliable");
+                return;
+            }
+
+            const citizenContractAddress = await deployCitizenContract(
+                accountAddress
+            );
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: `${username}`,
+                    password: `${password}`,
+                    accountAddress: `${accountAddress}`,
+                    citizenContract: `${citizenContractAddress}`,
+                }),
             })
-            .then((data) => {
-                return data;
-            });
-
-        console.log(newUser);
-
-        handleLogin();
+                .then((data) => {
+                    return data.json();
+                })
+                .then((data) => {
+                    return data;
+                });
+            handleLogin();
+        } catch (error) {
+            console.error(error);
+            alert(
+                "Error creating new user. Please check that backend is running"
+            );
+        }
     };
 
     const handleLogin = async () => {

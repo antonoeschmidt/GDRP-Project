@@ -12,6 +12,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState()
 
     const handleLogin = async () => {
+      try {
         let res = await login(username, password);
         if (res.token) {
           setAccount(res.accountAddress) // there could be a check for if address exists on blockchain
@@ -20,6 +21,10 @@ const LoginForm = () => {
         } else {
           alert("Username or password is invalid")
         }
+      } catch (error) {
+        console.error(error)
+        alert("Cannot connect to backend. Please check that it is running")
+      }
       }
 
     return(

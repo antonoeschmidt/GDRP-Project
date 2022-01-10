@@ -4,44 +4,55 @@ const AuthContext = createContext(null);
 
 export const useAuthContext = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const [id, setId] = useState("");
 
     const checkAuth = async () => {
         setLoading(true);
         let auth = !!localStorage.getItem("token");
         if (auth) {
-            return await fetch(`${process.env.REACT_APP_BACKEND_URL}/`, {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: localStorage.getItem("token"),
-                },
-            }).then((data) => {
-                return data.ok;
-            });
+            try {
+                return await fetch(`${process.env.REACT_APP_BACKEND_URL}/`, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }).then((data) => {
+                    return data.ok;
+                });
+            } catch (error) {
+                console.error(error);
+                alert(
+                    "Cannot connect to backend. Please check that it is running"
+                );
+            }
         } else {
             return false;
         }
     };
 
     const checkUsername = async (username) => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/login/checkusername/` + username, {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
+        return fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/login/checkusername/` +
+                username,
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
             }
-        })
+        )
             .then((data) => {
                 return data.json();
             })
             .then((data) => {
                 if (data._id) {
-                    return true
+                    return true;
                 } else {
-                    return false
+                    return false;
                 }
             });
     };
@@ -66,10 +77,13 @@ export const useAuthContext = () => {
                     setLoggedIn(true);
                     localStorage.setItem("token", `Bearer ${data.token}`);
                     localStorage.setItem("account", data.accountAddress);
-                    localStorage.setItem("citizenContract", data.citizenContract);
+                    localStorage.setItem(
+                        "citizenContract",
+                        data.citizenContract
+                    );
                     localStorage.setItem("id", data.id);
-                    setId(data.id)
-                } 
+                    setId(data.id);
+                }
                 return data;
             });
     };
@@ -83,7 +97,7 @@ export const useAuthContext = () => {
         checkAuth,
         checkUsername,
         id,
-        setId
+        setId,
     };
 };
 
