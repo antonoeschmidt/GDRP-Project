@@ -15,6 +15,3 @@ cd client && npm i
 ```
 npm start
 ```
-
-#### Credits
-This project has used a modified version of the Truffle Box from `brannanc/react_hooks_box`
