@@ -6,7 +6,7 @@ import { composeIDquery,
     dateFormatter,
     decrypt,
     setDataFromIDs,
-    setUsers } from "../../utils/utils";
+    setPermissionUsers } from "../../utils/utils";
 import AuthContext from "../../contexts/authContext";
 
 const ReceivedPermissionsComponent = () => {
@@ -46,11 +46,12 @@ const ReceivedPermissionsComponent = () => {
         if (!receivedPermissions) return;
         let ids = composeIDquery(receivedPermissions);
         setDataFromIDs(ids, setReqData);
-        setUsers(receivedPermissions, setReqUsers);
+        setPermissionUsers(receivedPermissions, setReqUsers);
     }, [receivedPermissions]);
 
     useEffect(() => {
         if (!reqData || !reqUsers) return;
+        console.log(reqUsers)
         setShowData(createViewData(receivedPermissions, reqData, reqUsers));
     }, [reqUsers, reqData, receivedPermissions]);
 
@@ -145,7 +146,7 @@ const ReceivedPermissionsComponent = () => {
                             new Date(d.retention) > new Date() ? (
                                 <Table.Row key={d._id}>
                                     <Table.Cell>{d._id}</Table.Cell>
-                                    <Table.Cell>{d.username}</Table.Cell>
+                                    <Table.Cell>{d.dataOwner}</Table.Cell>
                                     <Table.Cell>{d.dataType}</Table.Cell>
                                     <Table.Cell>
                                         Valid until {dateFormatter(d.retention)}

@@ -63,6 +63,41 @@ export const setUsers = async (requests, setReqUsers) => {
             });
 };
 
+export const setPermissionUsers = async (requests, setReqUsers) => {
+    let conAddressIds = "";
+    for (let i = 0; i < requests.length; i++) {
+        if (conAddressIds.includes(requests[i].requesterAddress));
+        else {
+            conAddressIds += requests[i].requesterAddress + "&";
+        }
+    }
+    if (conAddressIds.substr(-1) === "&") {
+        conAddressIds = conAddressIds.substr(0, conAddressIds.length - 1);
+    }
+
+    conAddressIds &&
+    fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/contractaddress/${conAddressIds}`,
+        {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+            },
+        }
+    )
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            if (!data) return;
+            setReqUsers(data);
+        });
+
+    
+};
+
 export const setData = async (id, setData) => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/data/userid/${id}`, {
         method: "GET",
@@ -110,6 +145,10 @@ export const createViewData = (requests, data, users) => {
             ({ accountAddress }) =>
                 accountAddress === requests[i].requesterAddress
         )?.username;
+        let dataOwner = users.find(
+            ({citizenContract}) => 
+                citizenContract === requests[i].contractAddress
+        )?.username
         let d = data.find(({ _id }) => _id === requests[i].dataId);
         let dataType = d?.dataType;
         let content = d?.content;
@@ -126,6 +165,7 @@ export const createViewData = (requests, data, users) => {
             dataId: requests[i].dataId,
             // needed for showdata on received permissions
             contractAddress: requests[i].contractAddress,
+            dataOwner: dataOwner
         };
         dataArr.push(dataObj);
     }
