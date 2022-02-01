@@ -126,7 +126,7 @@ const NewRequest = () => {
                 <Form.Field>
                     <label>Data Type</label>
                     <Dropdown
-                        placeholder="Username"
+                        placeholder="Data Type"
                         fluid
                         search
                         selection

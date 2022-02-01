@@ -190,6 +190,8 @@ const ReceivedPermissionsComponent = () => {
                 <Modal.Header>Data</Modal.Header>
                 <Modal.Description>
                     <p>{content}</p>
+                    <br/>
+                    <p style={{color: "#ffbe00", fontStyle: "italic"}}>Disclaimer! Downloading this data is in violation of data-protections laws</p>
                 </Modal.Description>
                 <Modal.Actions>
                     <Button onClick={() => setOpen(false)}>OK</Button>

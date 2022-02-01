@@ -25,7 +25,8 @@ export const useAuthContext = () => {
             } catch (error) {
                 console.error(error);
                 alert(
-                    "Cannot connect to backend. Please check that it is running"
+                    `Problem authorizing with backend. 
+                     Please check that it is running and token is valid`
                 );
             }
         } else {

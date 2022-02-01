@@ -149,11 +149,12 @@ export const decrypt = (encryptedData) => {
         return decryptedData.toString();
     } catch (err) {
         console.error(err);
-        return "error";
+        return "Data could not be decrypted. Please check that your private key is correct.";
     }
 };
 
 export const dateFormatter = (retention) => {
+console.log(retention)
     let date = new Date(retention);
     return `${date.getDate()}/${date.getMonth() + 1}-${date.getFullYear()} ${
         date.getHours() < 10 ? "0" + date.getHours() : date.getHours()

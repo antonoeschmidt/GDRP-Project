@@ -40,7 +40,6 @@ const IncomingRequests = () => {
         if (!requests) return;
         setData(id, setReqData);
         setUsers(requests, setReqUsers);
-        // setCalendarDate(requests.map((r) => new Date(r.retention)));
     }, [requests, id]);
 
     useEffect(() => {
@@ -71,7 +70,9 @@ const IncomingRequests = () => {
     };
 
     const handleDeny = async (request) => {
-        updatePermission(false, request._id);
+        let retention = new Date(request.retention);
+        retention = Math.floor(retention.getTime() / 1000);
+        updatePermission(false, request._id, retention);
         alert("Request denied");
         setShowData(showData.filter((d) => d._id !== request._id));
     };
@@ -97,10 +98,6 @@ const IncomingRequests = () => {
     };
 
     const changeDate = async (d, date) => {
-        console.log(d);
-        console.log(new Date(d.retention).getTime());
-        console.log(date.getTime());
-
         if (today > date) {
             alert("You can't set a rentention prior today");
             return;
@@ -113,7 +110,7 @@ const IncomingRequests = () => {
     };
 
     return (
-        <Table striped>
+        <Table striped className="requestsTable">
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Request ID</Table.HeaderCell>
