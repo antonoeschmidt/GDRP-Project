@@ -63,7 +63,7 @@ const IncomingRequests = () => {
         if (res.status) {
             updatePermission(true, request._id, retention);
             alert("Request accepted");
-            setRequests(requests.filter((d) => d._id !== request._id));
+            setShowData(showData.filter((d) => d._id !== request._id));
         } else {
             alert("Some error happened");
         }
@@ -73,7 +73,7 @@ const IncomingRequests = () => {
     const handleDeny = async (request) => {
         updatePermission(false, request._id);
         alert("Request denied");
-        setRequests(requests.filter((d) => d._id !== request._id));
+        setShowData(showData.filter((d) => d._id !== request._id));
     };
 
     const updatePermission = async (permissionGiven, id, retention) => {
