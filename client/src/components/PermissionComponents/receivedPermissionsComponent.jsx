@@ -191,10 +191,11 @@ const ReceivedPermissionsComponent = () => {
                 <Modal.Description>
                     <p>{content}</p>
                     <br/>
-                    <p style={{color: "#ffbe00", fontStyle: "italic"}}>Disclaimer! Downloading this data is in violation of data-protections laws</p>
+                    {content !== "Data could not be decrypted. Please check that your private key is correct." && <p style={{color: "#ffbe00", fontStyle: "italic"}}>Disclaimer! Downloading this data is in violation of data-protections laws</p>}
                 </Modal.Description>
                 <Modal.Actions>
                     <Button onClick={() => setOpen(false)}>OK</Button>
+                    {content !== "Data could not be decrypted. Please check that your private key is correct." &&
                     <Popup
                         content="Copied!"
                         on="click"
@@ -210,7 +211,7 @@ const ReceivedPermissionsComponent = () => {
                             </Button>
                         }
                         style={{ padding: "1px" }}
-                    />
+                    />}
                 </Modal.Actions>
             </Modal>
             <Modal
